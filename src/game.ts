@@ -1,6 +1,4 @@
-import { Card, Winner } from "./types.js";
-
-const suits: string[] = ['hearts', 'diamonds', 'clubs', 'spades'];
+import { Card, suits, Winner, values } from "./types.js";
 
 export class Game {
 
@@ -17,9 +15,10 @@ export class Game {
 
     createDeck(): Card[] {
         const deck: Card[] = [];
-        for (const suit of suits) {
-            for (let j = 1; j < 14; j++) {
-                deck.push({ number: j, suit });
+        for (let j = 0; j < suits.length; j++) {
+            const suit = suits[j]!;
+            for (let i = 1; i < values.length + 1; i++) {
+                deck.push(new Card(suit, i));
             }
         }
         return deck;
@@ -37,7 +36,7 @@ export class Game {
     }
 
     sumOfHand(array: Card[]): number {
-        return array.reduce((acc, val) => acc + val.number, 0);
+        return array.reduce((acc, val) => acc + val.getValue(acc), 0);
     }
 
     drawDealer() {
@@ -54,7 +53,7 @@ export class Game {
         const playerSum = this.sumOfHand(this.playerHand);
         const dealerSum = this.sumOfHand(this.dealerHand);
 
-        const rules: Array<[() => boolean, Winner]> = [
+        const rules: [() => boolean, Winner][] = [
             // busts
             [() => playerSum > 21, Winner.DEALER],
             [() => dealerSum > 21, Winner.PLAYER],
@@ -67,11 +66,11 @@ export class Game {
             [() => playerSum >= 17 && dealerSum >= 17 && playerSum === dealerSum, Winner.PUSH],
         ];
 
-        const match = rules.find(([pred]) => pred());
+        const match = rules.find((rule) => rule[0]());
         this.winner = match ? match[1] : null;
-
+        
         if (this.winner != null) {
-            alert(this.winner.toString());
+            alert(Winner[this.winner]);
         }
     }
 }

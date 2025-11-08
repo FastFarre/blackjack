@@ -4,14 +4,14 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-
+    "sourceMap": true,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "es6",
     "target": "es6",
     "types": [],
     // For nodejs:
-    // "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     // "types": ["node"],
     // and npm install -D @types/node
 
