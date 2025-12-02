@@ -1,10 +1,9 @@
 import {Game} from "./game.js";
 const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d');
 const standBtn = document.getElementById("standBtn")!;
 const hitBtn = document.getElementById("hitBtn")!;
 
-const game = new Game();
+const game = new Game(canvas);
 console.log(game.playerHand);
 console.log(game.dealerHand);
 standBtn.onclick = () => {    

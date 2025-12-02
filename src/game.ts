@@ -1,3 +1,4 @@
+import { Renderer } from "./renderer.js";
 import { Card, suits, Winner, values } from "./types.js";
 
 export class Game {
@@ -6,9 +7,13 @@ export class Game {
     playerHand: Card[];
     dealerHand: Card[];
     winner: Winner | null;
-    constructor() {
+    renderer: Renderer;
+    constructor(canvas: HTMLCanvasElement) {
+        this.renderer = new Renderer(canvas);
         this.deck = this.shuffleDeck(this.createDeck());
         this.playerHand = [this.deck.pop()!, this.deck.pop()!];
+        this.renderer.drawCard(this.playerHand[0] as Card, 10, 10);
+        this.renderer.drawCard(this.playerHand[1] as Card, 100, 10);
         this.dealerHand = [this.deck.pop()!, this.deck.pop()!];
         this.winner = null;
     }
