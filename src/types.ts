@@ -1,10 +1,11 @@
 export class Card {
     suit: string;
     value: number;
-    
-    constructor(suit: string, value: number) {
+    stringValue: string;
+    constructor(suit: string, value: number, stringValue: string) {
         this.suit = suit;
         this.value = value > 10 ? 10 : value;
+        this.stringValue = stringValue;
     }
 
     getValue(currentHandTotal: number): number {
@@ -21,6 +22,6 @@ export enum Winner {
     DEALER
 }
 
-export const values = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"];
+export const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 
 export const suits = ["Spades", "Clubs", "Hearts", "Diamonds"];

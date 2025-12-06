@@ -9,10 +9,9 @@
     // See also https://aka.ms/tsconfig/module
     "module": "es6",
     "target": "es6",
-    "types": [],
     // For nodejs:
     "lib": ["esnext", "DOM"],
-    // "types": ["node"],
+    "types": ["node"],
     // and npm install -D @types/node
 
     // Stricter Typechecking Options

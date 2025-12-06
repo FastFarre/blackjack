@@ -12,9 +12,9 @@ export class Game {
         this.renderer = new Renderer(canvas);
         this.deck = this.shuffleDeck(this.createDeck());
         this.playerHand = [this.deck.pop()!, this.deck.pop()!];
-        this.renderer.drawCard(this.playerHand[0] as Card, 10, 10);
-        this.renderer.drawCard(this.playerHand[1] as Card, 100, 10);
         this.dealerHand = [this.deck.pop()!, this.deck.pop()!];
+        this.renderer.drawPlayerHand(this.playerHand, 30, 30);
+        this.renderer.drawCard(this.dealerHand[0]!, 300, 30);
         this.winner = null;
     }
 
@@ -23,7 +23,7 @@ export class Game {
         for (let j = 0; j < suits.length; j++) {
             const suit = suits[j]!;
             for (let i = 1; i < values.length + 1; i++) {
-                deck.push(new Card(suit, i));
+                deck.push(new Card(suit, i, values[i-1]!));
             }
         }
         return deck;
@@ -34,7 +34,6 @@ export class Game {
         while (currentIndex !== 0) {
             const randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
-            // Swap
             [array[currentIndex]!, array[randomIndex]!] = [array[randomIndex]!, array[currentIndex]!];
         }
         return array;
