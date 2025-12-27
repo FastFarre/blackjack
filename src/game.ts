@@ -14,7 +14,7 @@ export class Game {
         this.playerHand = [this.deck.pop()!, this.deck.pop()!];
         this.dealerHand = [this.deck.pop()!, this.deck.pop()!];
         this.renderer.drawPlayerHand(this.playerHand, 30, 30);
-        this.renderer.drawCard(this.dealerHand[0]!, 300, 30);
+        this.renderer.drawDealerHand(this.dealerHand, 200, 30, true);
         this.winner = null;
     }
 
@@ -44,13 +44,17 @@ export class Game {
     }
 
     drawDealer() {
+        this.renderer.drawDealerHand(this.dealerHand, 200, 30, false);
         while (this.sumOfHand(this.dealerHand) < 17) {
             this.dealerHand.push(this.deck.pop()!);
+            this.renderer.drawDealerHand(this.dealerHand, 200, 30, false);
         }
+        this.checkWinner();
     }
 
     hitPlayer() {
         this.playerHand.push(this.deck.pop()!);
+        this.renderer.drawPlayerHand(this.playerHand, 30, 30);
     }
 
     checkWinner() {
@@ -65,16 +69,16 @@ export class Game {
             [() => playerSum === 21 && this.playerHand.length === 2, Winner.PLAYER],
             [() => dealerSum === 21 && this.dealerHand.length === 2, Winner.DEALER],
             // both finished: compare
-            [() => playerSum >= 17 && dealerSum >= 17 && playerSum > dealerSum, Winner.PLAYER],
-            [() => playerSum >= 17 && dealerSum >= 17 && dealerSum > playerSum, Winner.DEALER],
-            [() => playerSum >= 17 && dealerSum >= 17 && playerSum === dealerSum, Winner.PUSH],
+            [() => dealerSum >= 17 && playerSum > dealerSum, Winner.PLAYER],
+            [() => dealerSum >= 17 && dealerSum > playerSum, Winner.DEALER],
+            [() => dealerSum >= 17 && playerSum === dealerSum, Winner.PUSH],
         ];
 
         const match = rules.find((rule) => rule[0]());
         this.winner = match ? match[1] : null;
         
         if (this.winner != null) {
-            alert(Winner[this.winner]);
+            this.renderer.drawWinner(this.winner);
         }
     }
 }

@@ -14,11 +14,10 @@ standBtn.onclick = () => {
 //TODO: alleen kijken vr speler blackjack en bust
 hitBtn.onclick = () => {
     game.hitPlayer();
-    console.log(game.playerHand);
     game.checkWinner();
 }
 
 standBtn.onclick = () => {
-    game.drawDealer();
     game.checkWinner();
+    game.drawDealer();
 }
