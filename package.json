@@ -6,11 +6,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "typescript": "^5.9.3"
-  },
   "devDependencies": {
     "@types/node": "^24.10.1",
-    "lite-server": "^2.6.1"
+    "lite-server": "^2.6.1",
+    "typescript": "^5.9.3"
   }
 }

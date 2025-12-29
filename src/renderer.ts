@@ -9,6 +9,7 @@ export class Renderer {
     cardWidth: number = 70;
     cardHeight: number = 100;
     suits: Map<string, string> = new Map([["Spades", "♠"], ["Hearts", "♥"], ["Diamonds", "♦"], ["Clubs", "♣"]]);
+
     constructor(canvas: HTMLCanvasElement) {
         this.canvasWidth = canvas.width
         this.canvasHeight = canvas.height;
@@ -78,5 +79,9 @@ export class Renderer {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
         this.ctx.fillText(winnerText, this.canvasWidth / 2, this.canvasHeight / 2);
+    }
+
+    reset() {
+        this.ctx.reset();
     }
 }
