@@ -1,4 +1,4 @@
-import { Card, Winner } from "./types.js";
+import { Card, Hand, Winner } from "./types.js";
 
 export class Renderer {
     ctx: CanvasRenderingContext2D;
@@ -16,15 +16,15 @@ export class Renderer {
         this.ctx = canvas.getContext('2d')!;
     }
 
-    drawCard(card: Card, x: number, y: number, faceUp: boolean) {
+    renderCard(card: Card, x: number, y: number, faceUp: boolean) {
         if (faceUp) {
-            this.drawCardFaceUp(card, x, y);
+            this.renderCardFaceUp(card, x, y);
         } else {
-            this.drawCardFaceDown(x, y);
+            this.renderCardFaceDown(x, y);
         }
     }
 
-    drawCardFaceUp(card: Card, x: number, y: number) {
+    renderCardFaceUp(card: Card, x: number, y: number) {
         this.ctx.fillStyle = "white";
         this.ctx.fillRect(x, y, this.cardWidth, this.cardHeight);
         this.ctx.font = "15px serif";
@@ -43,7 +43,7 @@ export class Renderer {
         this.ctx.fillText(this.suits.get(card.suit)!, x + this.cardWidth / 2, y + this.cardHeight / 2);
     }
 
-    drawCardFaceDown(x: number, y: number) {
+    renderCardFaceDown(x: number, y: number) {
         this.ctx.fillStyle = "red";
         this.ctx.fillRect(x, y, this.cardWidth, this.cardHeight);
         this.ctx.strokeStyle = "white";
@@ -51,28 +51,35 @@ export class Renderer {
         this.ctx.strokeRect(x, y, this.cardWidth, this.cardHeight);
     }
 
-    drawPlayerHand(cards: Card[], x: number, y: number) {
-        for (const card of cards) {
-            this.drawCard(card, x, y, true);
+    renderPlayerHands(playerHands: Hand[]) {
+        let x = 100;
+        let y = 300;
+        for (const hand of playerHands) {
+            this.renderPlayerHand(hand, x, y);
+            x += 200;
+        }
+    }
+    renderPlayerHand(hand: Hand, x: number, y: number) {
+        for(const card of hand.cards) {
+            this.renderCard(card, x, y, true);
             x += 25;
             y += 25;
         }
     }
 
-    drawDealerHand(cards: Card[], x: number, y: number, firstDraw: boolean) {
+    renderDealerHand(hand: Hand, x: number, y: number, firstDraw: boolean) {
         if (firstDraw) {
-            this.drawCard(cards[0]!, x, y, false);
-            this.drawCard(cards[1]!, x + 25, y + 25, true);
+            this.renderCard(hand.cards[0]!, x, y, false);
+            this.renderCard(hand.cards[1]!, x + 25, y + 25, true);
         } else {
-            for (const card of cards) {
-                this.drawCard(card, x, y, true);
-                x += 25;
-                y += 25;
+            for (const card of hand.cards) {
+                this.renderCard(card, x, y, true);
+                x += this.cardWidth + 10;
             }    
         }
     }
 
-    drawWinner(winner: Winner) {
+    renderWinner(winner: Winner) {
         const winnerText: string = Winner[winner];
         this.ctx.fillStyle = "white";
         this.ctx.font = "30px serif";

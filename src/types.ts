@@ -22,6 +22,16 @@ export enum Winner {
     DEALER
 }
 
+export class Hand {
+    ownerId: number;
+    cards: Card[];
+    done: boolean = false;
+    constructor(ownerId: number, cards: Card[]) {
+        this.ownerId = ownerId;
+        this.cards = cards;
+    }
+}
+
 export const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 
 export const suits = ["Spades", "Clubs", "Hearts", "Diamonds"];

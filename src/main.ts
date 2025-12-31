@@ -1,26 +1,18 @@
 import {Game} from "./game.js";
-const canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-const standBtn = document.getElementById("standBtn")!;
-const hitBtn = document.getElementById("hitBtn")!;
+const canvas = document.querySelector("#gameCanvas") as HTMLCanvasElement;
+const standBtn = document.querySelector("#standBtn")!;
+const hitBtn = document.querySelector("#hitBtn");
 const resetBtn = document.getElementById("resetBtn")!;
+
 const game = new Game(canvas);
-console.log(game.playerHand);
-console.log(game.dealerHand);
-standBtn.onclick = () => {    
-    game.drawDealer();
-    game.checkWinner();
-};
 
-//TODO: alleen kijken vr speler blackjack en bust
-hitBtn.onclick = () => {
-    game.hitPlayer();
-    game.checkPlayerWon();
-}
+let currentHand = 0;
 
-standBtn.onclick = () => {
-    game.checkWinner();
-    game.drawDealer();
-}
+standBtn.addEventListener("click", () => {
+    game.standPlayer(currentHand);
+    currentHand++;
+    
+});
 
 resetBtn.onclick = () => {
     game.reset(canvas);
