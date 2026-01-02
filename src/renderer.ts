@@ -67,11 +67,16 @@ export class Renderer {
         }
     }
 
-    renderDealerHand(hand: Hand, x: number, y: number, firstDraw: boolean) {
+    renderDealerHand(hand: Hand, firstDraw: boolean) {
+        this.ctx.clearRect(0,0,this.canvasWidth, 300);
+        const center = hand.cards.length * (this.cardWidth + 10) / 2;
+        const y = 30;
+        let x = this.canvasWidth / 2 - center;
         if (firstDraw) {
             this.renderCard(hand.cards[0]!, x, y, false);
             this.renderCard(hand.cards[1]!, x + 25, y + 25, true);
         } else {
+            
             for (const card of hand.cards) {
                 this.renderCard(card, x, y, true);
                 x += this.cardWidth + 10;

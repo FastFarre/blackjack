@@ -20,7 +20,7 @@ export class Game {
         this.playerHands.push(new Hand(this.playerHands.length, [this.deck.pop()!, this.deck.pop()!]));
         this.dealerHand = new Hand(dealerId, [this.deck.pop()!, this.deck.pop()!]);
         this.renderer.renderPlayerHands(this.playerHands);
-        this.renderer.renderDealerHand(this.dealerHand, 300, 30, true);
+        this.renderer.renderDealerHand(this.dealerHand, true);
         this._winner = null;
     }
 
@@ -35,7 +35,7 @@ export class Game {
 
     private onWinnerChanged(newValue: Winner | null) {
         if (newValue != null) {
-            this.renderer.renderDealerHand(this.dealerHand, 400, 30, false);
+            this.renderer.renderDealerHand(this.dealerHand, false);
             this.renderer.renderWinner(newValue);
         }
     }
@@ -66,10 +66,10 @@ export class Game {
     }
 
     drawDealer() {
-        this.renderer.renderDealerHand(this.dealerHand, 300, 30, false);
+        this.renderer.renderDealerHand(this.dealerHand, false);
         while (this.sumOfHand(this.dealerHand) < 17) {
             this.dealerHand.cards.push(this.deck.pop()!);
-            this.renderer.renderDealerHand(this.dealerHand, 200, 30, false);
+            this.renderer.renderDealerHand(this.dealerHand, false);
         }
         for (let i = 0; i < this.playerHands.length; i++) {
             this.checkWinner(i);
