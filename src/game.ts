@@ -17,27 +17,12 @@ export class Game {
         this.renderer.reset();
         this.deck = this.shuffleDeck(this.createDeck());
         this.playerHands = [];
-        this.playerHands.push(new Hand(this.playerHands.length, [this.deck.pop()!, this.deck.pop()!]));
+        // FOR TESTING
+        this.playerHands.push(new Hand(this.playerHands.length, [new Card("Hearts", 4, "4"), new Card("Diamonds", 4, "4")]));
+        // this.playerHands.push(new Hand(this.playerHands.length, [this.deck.pop()!, this.deck.pop()!]));
         this.dealerHand = new Hand(dealerId, [this.deck.pop()!, this.deck.pop()!]);
         this.renderer.renderPlayerHands(this.playerHands);
         this.renderer.renderDealerHand(this.dealerHand, true);
-        this._winner = null;
-    }
-
-    get winner() {
-        return this.winner;
-    }
-
-    set winner(newValue: Winner | null) {
-        this._winner = newValue;
-        this.onWinnerChanged(newValue);
-    }
-
-    private onWinnerChanged(newValue: Winner | null) {
-        if (newValue != null) {
-            this.renderer.renderDealerHand(this.dealerHand, false);
-            this.renderer.renderWinner(newValue);
-        }
     }
 
     createDeck(): Card[] {
@@ -79,6 +64,7 @@ export class Game {
     hitPlayer(id: number) {
         const hand = this.playerHands[id]!;
         hand.cards.push(this.deck.pop()!)
+        this.checkPlayerWon(id);
         this.renderer.renderPlayerHands(this.playerHands);
     }
 
@@ -93,8 +79,14 @@ export class Game {
     }
 
     splitHand(id: number) {
-        
+        let currentHand: Hand = this.playerHands[id]!;
+        if (currentHand.cards.length === 2 && currentHand.cards[0]?.stringValue === currentHand.cards[0]?.stringValue) {
+            const card = currentHand.cards.pop()!
+            this.playerHands.splice(id, 0, new Hand(id + 1, [card]));
+            this.renderer.renderPlayerHands(this.playerHands);
+        }
     }
+
     checkWinner(id: number) {
         const playerHand = this.playerHands[id]!
         const playerSum = this.sumOfHand(playerHand);
@@ -114,7 +106,13 @@ export class Game {
         ];
 
         const match = rules.find((rule) => rule[0]());
-        this.winner = match ? match[1] : null;
+        const winner = match ? match[1] : null;
+        playerHand.winner = winner;
+        
+        if (winner !== null) {
+            this.renderer.renderDealerHand(this.dealerHand, false);
+            this.renderer.renderWinner(winner, id);
+        }
     }
 
     // Only check conditions for player since dealer still has one card hidden
@@ -122,10 +120,13 @@ export class Game {
         const playerHand = this.playerHands[id]!
         const sum = this.sumOfHand(playerHand);
         if (sum > 21) {
-            this.winner = Winner.DEALER;
+            playerHand.winner = Winner.DEALER;
         }
         if (sum === 21 && playerHand.cards.length === 2) {
-            this.winner = Winner.PLAYER;
+            playerHand.winner = Winner.PLAYER;
+        }
+        if (playerHand.winner !== null) {
+            this.renderer.renderWinner(playerHand.winner, id);
         }
     }
 

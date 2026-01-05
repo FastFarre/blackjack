@@ -26,9 +26,18 @@ export class Hand {
     ownerId: number;
     cards: Card[];
     done: boolean = false;
+    _winner: Winner | null = null;
     constructor(ownerId: number, cards: Card[]) {
         this.ownerId = ownerId;
         this.cards = cards;
+    }
+
+    get winner() {
+        return this._winner;
+    }
+
+    set winner(newValue: Winner | null) {
+        this._winner = newValue;
     }
 }
 

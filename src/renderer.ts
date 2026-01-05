@@ -54,6 +54,7 @@ export class Renderer {
     renderPlayerHands(playerHands: Hand[]) {
         let x = 100;
         let y = 300;
+        this.ctx.clearRect(0, this.canvasHeight / 2, this.canvasWidth, this.canvasHeight / 2);
         for (const hand of playerHands) {
             this.renderPlayerHand(hand, x, y);
             x += 200;
@@ -68,7 +69,7 @@ export class Renderer {
     }
 
     renderDealerHand(hand: Hand, firstDraw: boolean) {
-        this.ctx.clearRect(0,0,this.canvasWidth, 300);
+        this.ctx.clearRect(0,0,this.canvasWidth, 200);
         const center = hand.cards.length * (this.cardWidth + 10) / 2;
         const y = 30;
         let x = this.canvasWidth / 2 - center;
@@ -84,13 +85,12 @@ export class Renderer {
         }
     }
 
-    renderWinner(winner: Winner) {
+    renderWinner(winner: Winner, id: number) {
         const winnerText: string = Winner[winner];
         this.ctx.fillStyle = "white";
         this.ctx.font = "30px serif";
-        this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
-        this.ctx.fillText(winnerText, this.canvasWidth / 2, this.canvasHeight / 2);
+        this.ctx.fillText(winnerText, 150 + id * 200, this.canvasHeight / 2 - 30);
     }
 
     reset() {

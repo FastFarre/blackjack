@@ -1,3 +1,4 @@
+import { log } from "console";
 import {Game} from "./game.js";
 const canvas = document.querySelector("#gameCanvas") as HTMLCanvasElement;
 const standBtn = document.querySelector("#standBtn")!;
@@ -19,7 +20,11 @@ hitBtn.addEventListener("click", () => {
     game.hitPlayer(currentHand);
 });
 
+splitBtn.addEventListener("click", () => {
+    game.splitHand(currentHand);    
+});
 
 resetBtn.onclick = () => {
     game.reset(canvas);
+    currentHand = 0;
 };
